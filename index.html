@@ -2,120 +2,183 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Navigator Pekeliling Disiplin KPM</title>
-<meta name="description" content="Navigasi pantas semua pekeliling disiplin KPM — ikut topik, tahun & kronologi. PDF dimuat hanya bila dibuka.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>Disiplin KPM — Navigator Pekeliling</title>
+<meta name="description" content="Semua pekeliling disiplin KPM — cari ikut topik, tahun & kronologi. Pantas di telefon.">
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--acc:#38bdf8;--txt:#e2e8f0;--mut:#94a3b8;--chip:#334155}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt)}
-header{position:sticky;top:0;z-index:5;background:#0b1226f2;backdrop-filter:blur(6px);border-bottom:1px solid #263349;padding:12px 14px}
-h1{font-size:17px;margin:0}h1 small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
-.bar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-input[type=search]{flex:1;min-width:160px;padding:10px 12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:var(--txt);font-size:15px}
-select,button.f{padding:10px 12px;border-radius:10px;border:1px solid #334155;background:var(--chip);color:var(--txt);font-size:14px}
-.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 14px 4px;-webkit-overflow-scrolling:touch}
-.chip{white-space:nowrap;padding:7px 12px;border-radius:999px;border:1px solid #334155;background:#16213a;color:var(--txt);font-size:13px;cursor:pointer}
-.chip.on{background:var(--acc);color:#06202e;border-color:var(--acc);font-weight:700}
-main{padding:10px 14px 90px;max-width:1080px;margin:0 auto}
-.meta{color:var(--mut);font-size:12px;margin:8px 0}
-.grid{display:grid;gap:10px;grid-template-columns:1fr}
-@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}.bar{flex-wrap:nowrap}}
-@media(min-width:1020px){.grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:var(--card);border:1px solid #2b3b55;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.card .yr{font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.4px}
-.card h2{font-size:14.5px;margin:0;line-height:1.35}
-.tags{display:flex;flex-wrap:wrap;gap:5px}.tag{font-size:11px;background:#0f172a;border:1px solid #334155;padding:3px 8px;border-radius:999px;color:#cbd5e1}
-.card .row{display:flex;gap:8px;margin-top:auto}
-.btn{flex:1;text-align:center;padding:10px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:0;text-decoration:none}
-.view{background:var(--acc);color:#06202e}.dl{background:#0f172a;color:var(--txt);border:1px solid #475569}
-.tl{margin:14px 0 4px;border-left:3px solid var(--acc);padding-left:10px}
-.tl h3{margin:0 0 2px;font-size:13px;color:var(--acc)}
-.tl p{margin:0 0 10px;font-size:12px;color:var(--mut)}
-#viewer{position:fixed;inset:0;z-index:50;display:none;background:#000000d9}
-#viewer.open{display:flex;flex-direction:column}
-#viewer .vbar{display:flex;gap:8px;align-items:center;padding:10px;background:#0b1226}
-#viewer .vbar span{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#viewer iframe{flex:1;width:100%;border:0;background:#fff}
-.x{background:#ef4444;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:800;font-size:15px}
-.o{background:var(--acc);color:#06202e;border:0;border-radius:10px;padding:10px 12px;font-weight:700;text-decoration:none;font-size:14px}
-footer{color:var(--mut);font-size:11.5px;padding:18px 14px 40px;max-width:1080px;margin:0 auto}
-a{color:var(--acc)}
+:root{--background:#09090b;--foreground:#fafafa;--card:#18181b;--card2:#27272a;--border:#27272a;--muted:#a1a1aa;--primary:#38bdf8;--primary-fg:#082f49;--radius:.9rem}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--background);color:var(--foreground);font-family:system-ui,-apple-system,"Segoe UI",Inter,Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;padding-bottom:96px}
+.top{position:sticky;top:0;z-index:20;background:#09090bcc;backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.top-in{max-width:760px;margin:0 auto;padding:12px 16px 10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#38bdf8,#818cf8);display:grid;place-items:center;font-size:19px;flex:none}
+.brand h1{font-size:16px;margin:0;letter-spacing:-.01em}
+.brand p{margin:0;font-size:12px;color:var(--muted)}
+.search{position:relative;margin-top:10px}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.55}
+.search input{width:100%;padding:14px 40px 14px 42px;font-size:16px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--foreground)}
+.search input:focus{outline:2px solid var(--primary);outline-offset:-1px}
+.search .clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);font-size:20px;padding:8px 10px;display:none}
+.filters{max-width:760px;margin:0 auto;padding:10px 16px 0}
+.frow{display:flex;gap:8px}
+.fbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--foreground);font-size:14px;font-weight:600}
+.fbtn.on{border-color:var(--primary);color:var(--primary)}
+.panel{display:none;margin-top:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+.panel.open{display:block}
+.panel label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.panel select{width:100%;margin:6px 0 12px;padding:14px;font-size:16px;border-radius:12px;border:1px solid var(--border);background:var(--background);color:var(--foreground)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--background);border:1px solid var(--border);border-radius:12px;padding:4px}
+.seg button{border:0;border-radius:9px;padding:12px;font-size:14px;font-weight:700;background:transparent;color:var(--muted)}
+.seg button.on{background:var(--card2);color:var(--foreground)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 6px;max-width:760px;margin:0 auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;scroll-snap-align:start;min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--foreground);font-size:14px;font-weight:600}
+.chip.on{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
+main{max-width:760px;margin:0 auto;padding:6px 16px 0}
+.count{font-size:13px;color:var(--muted);margin:10px 2px}
+.ylist{font-size:12px;font-weight:800;color:var(--primary);letter-spacing:.08em;margin:18px 2px 8px;text-transform:uppercase}
+.card{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;color:var(--foreground);cursor:pointer}
+.card:active{transform:scale(.99)}
+.card .k{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--primary);letter-spacing:.03em}
+.card .k .dot{margin-left:auto;font-weight:400;color:var(--muted)}
+.card h2{font-size:16.5px;line-height:1.4;margin:8px 0;letter-spacing:-.01em;font-weight:650}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.badge{font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--card2);border:1px solid var(--border);color:#d4d4d8}
+.go{display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:12px;font-size:14px;font-weight:700;color:var(--primary)}
+.go span{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500}
+.empty{text-align:center;color:var(--muted);padding:48px 16px}
+.empty b{color:var(--foreground)}
+.sheet{position:fixed;inset:0;z-index:50;display:none}
+.sheet.open{display:block}
+.sheet .scrim{position:absolute;inset:0;background:#000000c9}
+.sheet .body{position:absolute;left:0;right:0;bottom:0;top:4vh;background:#131316;border:1px solid var(--border);border-bottom:0;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden}
+@media(min-width:760px){.sheet .body{top:6vh;max-width:900px;margin:0 auto;border-radius:20px;border-bottom:1px solid var(--border);bottom:4vh}}
+.grab{width:44px;height:5px;border-radius:99px;background:#3f3f46;margin:10px auto 2px;flex:none}
+.vhead{padding:8px 12px 10px;border-bottom:1px solid var(--border)}
+.vhead h3{font-size:14px;margin:4px 2px 2px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vhead .sub{font-size:12px;color:var(--muted);margin:0 2px 10px}
+.vact{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.abtn{min-height:52px;border-radius:12px;font-size:14px;font-weight:800;border:1px solid var(--border);background:var(--card2);color:var(--foreground);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.abtn.pri{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
+.abtn.dan{background:#3f1d1d;border-color:#7f1d1d;color:#fecaca}
+iframe#frame{flex:1;width:100%;border:0;background:#fff;min-height:0}
+.vhint{font-size:12px;color:var(--muted);padding:8px 14px;border-top:1px solid var(--border)}
+nav.tab{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#101013f2;backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+.tab-in{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tbtn{min-height:52px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--foreground);font-size:13px;font-weight:700}
+.tbtn.pri{background:var(--primary);color:var(--primary-fg);border-color:var(--primary)}
+footer{max-width:760px;margin:0 auto;padding:20px 18px 12px;font-size:12px;color:var(--muted)}
+footer a{color:var(--primary)}
 </style>
 </head>
 <body>
-<header>
-<h1>📚 Navigator Pekeliling Disiplin KPM<small>Topik • Tahun • Kronologi — PDF dimuat hanya bila dibuka (pantas di telefon & desktop)</small></h1>
-<div class="bar">
-<input id="q" type="search" placeholder="Cari: buli, merotan, vape, telefon, seksual…" autocomplete="off">
+<div class="top"><div class="top-in">
+<div class="brand"><div class="logo">⚖️</div><div><h1>Disiplin KPM</h1><p>Navigator pekeliling — topik • tahun • kronologi</p></div></div>
+<div class="search">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+<input id="q" type="search" placeholder="Cari buli, merotan, vape, seksual…" autocomplete="off" enterkeyhint="search">
+<button class="clr" id="clr" aria-label="Padam">×</button>
+</div>
+</div></div>
+<div class="filters"><div class="frow">
+<button class="fbtn" id="fToggle" aria-expanded="false">⚙️ Penapis <span id="fN"></span></button>
+<button class="fbtn" id="sortBtn">↓ Terbaru</button>
+</div>
+<div class="panel" id="panel">
+<label for="year">Tahun</label>
 <select id="year"><option value="">Semua tahun</option></select>
-<select id="sort"><option value="desc">Terbaru → tertua</option><option value="asc">Tertua → terbaru</option></select>
+<label>Susunan kronologi</label>
+<div class="seg" id="seg">
+<button data-s="desc" class="on">↓ Terbaru dahulu</button>
+<button data-s="asc">↑ Tertua dahulu</button>
 </div>
-</header>
+</div></div>
 <div class="chips" id="chips"></div>
-<main>
-<div class="meta" id="count"></div>
-<div id="list"></div>
+<main><div class="count" id="count"></div><div id="list"></div>
+<footer>⚖️ PDF = dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>). Pembetulan: SPI 9/2018 = Perpaduan (seksual = SPI 13/2023); SPI 6/2019 = KSSM (buli = SPI 8/2010 &amp; 12/2023).</footer>
 </main>
-<div id="viewer" role="dialog" aria-label="Paparan PDF">
-<div class="vbar"><button class="x" id="close">✕ Tutup</button><span id="vtitle"></span><a class="o" id="vopen" href="#" target="_blank" rel="noopener">Buka ⬈</a></div>
-<iframe id="frame" title="PDF viewer"></iframe>
+<nav class="tab"><div class="tab-in">
+<button class="tbtn" id="tTop">↑ Atas</button>
+<button class="tbtn pri" id="tFilter">⚙️ Penapis</button>
+<button class="tbtn" id="tNew">↓ Terbaru</button>
+</div></nav>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Paparan PDF">
+<div class="scrim" id="scrim"></div>
+<div class="body">
+<div class="grab"></div>
+<div class="vhead">
+<div class="vact">
+<button class="abtn dan" id="close">✕ Tutup</button>
+<a class="abtn pri" id="vopen" href="#" target="_blank" rel="noopener">⬈ Buka penuh</a>
+<a class="abtn" id="vdl" href="#" download>⤓ Muat turun</a>
 </div>
-<footer>
-⚖️ <b>Nota:</b> Semua PDF ialah dokumen rasmi KPM (salinan cerminan pantas untuk capaian sekolah; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my/pekeliling-ikhtisas</a> disekat untuk sesetengah rangkaian). Sahkan nombor pekeliling sebelum cetakan rasmi. Pembetulan penting: SPI 9/2018 = Perpaduan (bukan seksual — yang betul SPI 13/2023); SPI 6/2019 = KSSM (bukan buli — yang betul SPI 8/2010 & SPI 12/2023).<br>
-Dibina sebagai GitHub Pages statik — tiada penjejak, tiada framework.
-</footer>
+<h3 id="vtitle"></h3>
+<p class="sub" id="vsub"></p>
+</div>
+<iframe id="frame" title="PDF"></iframe>
+<div class="vhint">Jika PDF kosong di telefon — tekan <b>Buka penuh</b> (aplikasi PDF telefon lebih pantas).</div>
+</div></div>
 <script>
-let CAT=[],topic="Semua";
+let CAT=[],topic="Semua",sort="desc",deb=null;
 const $=s=>document.querySelector(s);
+function fmt(s){if(!s)return "";return s>1048576?" • "+(s/1048576).toFixed(1)+" MB":" • "+Math.round(s/1024)+" KB"}
 fetch("data/catalog.json").then(r=>r.json()).then(d=>{
  CAT=d;
  const yrs=[...new Set(CAT.map(c=>c.year))].sort((a,b)=>b-a);
  yrs.forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;$("#year").appendChild(o)});
- const topics=["Semua",...new Set(CAT.flatMap(c=>c.topics))];
- const ch=$("#chips");topics.forEach(t=>{const b=document.createElement("button");b.className="chip"+(t==="Semua"?" on":"");b.textContent=t;b.onclick=()=>{topic=t;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");render()};ch.appendChild(b)});
- $("#q").addEventListener("input",()=>render());
- $("#year").addEventListener("change",render);
- $("#sort").addEventListener("change",render);
+ ["Semua",...new Set(CAT.flatMap(c=>c.topics))].forEach(t=>{
+  const b=document.createElement("button");b.className="chip"+(t==="Semua"?" on":"");b.textContent=t;
+  b.onclick=()=>{topic=t;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");updF();render()};$("#chips").appendChild(b)});
  if(location.hash.startsWith("#id="))openId(decodeURIComponent(location.hash.slice(4)));
  render();
 });
-function fmt(s){if(!s)return "?";return s>1048576?(s/1048576).toFixed(1)+" MB":Math.round(s/1024)+" KB"}
-function filtered(){
+function updF(){const n=(topic!=="Semua"?1:0)+($("#year").value?1:0);$("#fN").textContent=n?"("+n+")":"";$("#fToggle").classList.toggle("on",!!n)}
+function F(){
  const q=$("#q").value.toLowerCase().trim(),y=$("#year").value;
  let r=CAT.filter(c=>(topic==="Semua"||c.topics.includes(topic))&&(!y||String(c.year)===y)&&(!q||(c.title+" "+c.keywords+" "+c.bil).toLowerCase().includes(q)));
- r.sort((a,b)=>$("#sort").value==="desc"?b.year-a.year||b.title.localeCompare(a.title):a.year-b.year||a.title.localeCompare(b.title));
+ r.sort((a,b)=>sort==="desc"?b.year-a.year||b.title.localeCompare(a.title):a.year-b.year||a.title.localeCompare(b.title));
  return r;
 }
 function render(){
- const r=filtered();
- $("#count").textContent=r.length+" / "+CAT.length+" pekeliling • susunan "+($("#sort").value==="desc"?"terbaru dahulu":"tertua dahulu");
- const host=$("#list");host.innerHTML="";
- if($("#sort").value==="asc"){
-   let last=null;
-   r.forEach(c=>{if(c.year!==last){last=c.year;host.insertAdjacentHTML("beforeend",'<div class="tl"><h3>'+last+'</h3><p>Garis masa kronologi</p></div><div class="grid" data-y="'+last+'"></div>')}host.querySelector('[data-y="'+last+'"]').appendChild(card(c))});
- }else{
-   const g=document.createElement("div");g.className="grid";r.forEach(c=>g.appendChild(card(c)));host.appendChild(g);
- }
+ const r=F();
+ $("#count").textContent=r.length+" daripada "+CAT.length+" pekeliling";
+ $("#clr").style.display=$("#q").value?"block":"none";
+ const h=$("#list");h.innerHTML="";
+ if(!r.length){h.innerHTML='<div class="empty"><b>Tiada hasil.</b><br>Cuba kata kunci lain atau set semula penapis.</div>';return}
+ if(sort==="asc"){let last=null;
+  r.forEach(c=>{if(c.year!==last){last=c.year;const d=document.createElement("div");d.className="ylist";d.textContent=last;h.appendChild(d)}h.appendChild(card(c))});
+ }else{r.forEach(c=>h.appendChild(card(c)))}
 }
 function card(c){
- const d=document.createElement("div");d.className="card";
- d.innerHTML='<div class="yr">'+c.year+' • '+c.bil+'</div><h2>'+c.title+'</h2><div class="tags">'+c.topics.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div><div class="meta">📄 '+fmt(c.size)+' • pdfs/'+c.file+'</div><div class="row"><button class="btn view">Lihat PDF</button><a class="btn dl" href="pdfs/'+c.file+'" download>Muat turun</a></div>';
- d.querySelector(".view").onclick=()=>openId(c.id);
- return d;
+ const b=document.createElement("button");b.className="card";
+ b.innerHTML='<div class="k">⬤ '+c.year+' &nbsp;·&nbsp; '+c.bil+'<span class="dot">'+fmt(c.size)+'</span></div><h2>'+c.title+'</h2><div class="tags">'+c.topics.map(t=>'<span class="badge">'+t+'</span>').join("")+'</div><div class="go">Lihat PDF <span>'+(c.size?(c.size>1048576?(c.size/1048576).toFixed(1)+" MB":Math.round(c.size/1024)+" KB"):"—")+' →</span></div>';
+ b.onclick=()=>openId(c.id);
+ return b;
 }
 function openId(id){
  const c=CAT.find(x=>x.id===id);if(!c)return;
- $("#vtitle").textContent=c.bil+" — "+c.title;
- $("#frame").src="pdfs/"+c.file;
- $("#vopen").href="pdfs/"+c.file;
- $("#viewer").classList.add("open");
+ $("#vtitle").textContent=c.title;$("#vsub").textContent=c.bil+" • "+c.year+fmt(c.size);
+ $("#frame").src="pdfs/"+c.file;$("#vopen").href="pdfs/"+c.file;$("#vdl").href="pdfs/"+c.file;
+ $("#sheet").classList.add("open");document.body.style.overflow="hidden";
  history.replaceState(null,"","#id="+encodeURIComponent(id));
- document.body.style.overflow="hidden";
 }
-function closeV(){$("#viewer").classList.remove("open");$("#frame").src="about:blank";history.replaceState(null,""," ");document.body.style.overflow=""}
-$("#close").onclick=closeV;
-$("#viewer").addEventListener("click",e=>{if(e.target.id==="viewer")closeV()});
-document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("#q")){e.preventDefault();$("#q").focus()}if(e.key==="Escape")closeV()});
+function closeS(){$("#sheet").classList.remove("open");$("#frame").src="about:blank";history.replaceState(null,""," ");document.body.style.overflow=""}
+$("#close").onclick=closeS;$("#scrim").onclick=closeS;
+$("#q").addEventListener("input",()=>{clearTimeout(deb);deb=setTimeout(render,120)});
+$("#clr").onclick=()=>{$("#q").value="";render();$("#q").focus()};
+$("#year").addEventListener("change",()=>{updF();render()});
+$("#sortBtn").onclick=()=>setSort(sort==="desc"?"asc":"desc");
+document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>setSort(b.dataset.s));
+function setSort(s){sort=s;document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on",b.dataset.s===s));$("#sortBtn").textContent=s==="desc"?"↓ Terbaru":"↑ Tertua";render()}
+const p=$("#panel");
+function togP(force){const open=force!==undefined?force:!p.classList.contains("open");p.classList.toggle("open",open);$("#fToggle").setAttribute("aria-expanded",open)}
+$("#fToggle").onclick=()=>togP();$("#tFilter").onclick=()=>{togP(true);window.scrollTo({top:0,behavior:"smooth"})};
+$("#tTop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+$("#tNew").onclick=()=>{topic="Semua";$("#year").value="";setSort("desc");document.querySelectorAll(".chip").forEach((x,i)=>x.classList.toggle("on",i===0));updF();render();window.scrollTo({top:0,behavior:"smooth"})};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeS();if(e.key==="/"&&document.activeElement!==$("#q")){e.preventDefault();$("#q").focus()}});
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 </body>
