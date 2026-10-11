@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Navigator Pekeliling Disiplin KPM</title>
+<meta name="description" content="Navigasi pantas semua pekeliling disiplin KPM — ikut topik, tahun & kronologi. PDF dimuat hanya bila dibuka.">
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--acc:#38bdf8;--txt:#e2e8f0;--mut:#94a3b8;--chip:#334155}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt)}
+header{position:sticky;top:0;z-index:5;background:#0b1226f2;backdrop-filter:blur(6px);border-bottom:1px solid #263349;padding:12px 14px}
+h1{font-size:17px;margin:0}h1 small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
+.bar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+input[type=search]{flex:1;min-width:160px;padding:10px 12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:var(--txt);font-size:15px}
+select,button.f{padding:10px 12px;border-radius:10px;border:1px solid #334155;background:var(--chip);color:var(--txt);font-size:14px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 14px 4px;-webkit-overflow-scrolling:touch}
+.chip{white-space:nowrap;padding:7px 12px;border-radius:999px;border:1px solid #334155;background:#16213a;color:var(--txt);font-size:13px;cursor:pointer}
+.chip.on{background:var(--acc);color:#06202e;border-color:var(--acc);font-weight:700}
+main{padding:10px 14px 90px;max-width:1080px;margin:0 auto}
+.meta{color:var(--mut);font-size:12px;margin:8px 0}
+.grid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}.bar{flex-wrap:nowrap}}
+@media(min-width:1020px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--card);border:1px solid #2b3b55;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.card .yr{font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.4px}
+.card h2{font-size:14.5px;margin:0;line-height:1.35}
+.tags{display:flex;flex-wrap:wrap;gap:5px}.tag{font-size:11px;background:#0f172a;border:1px solid #334155;padding:3px 8px;border-radius:999px;color:#cbd5e1}
+.card .row{display:flex;gap:8px;margin-top:auto}
+.btn{flex:1;text-align:center;padding:10px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:0;text-decoration:none}
+.view{background:var(--acc);color:#06202e}.dl{background:#0f172a;color:var(--txt);border:1px solid #475569}
+.tl{margin:14px 0 4px;border-left:3px solid var(--acc);padding-left:10px}
+.tl h3{margin:0 0 2px;font-size:13px;color:var(--acc)}
+.tl p{margin:0 0 10px;font-size:12px;color:var(--mut)}
+#viewer{position:fixed;inset:0;z-index:50;display:none;background:#000000d9}
+#viewer.open{display:flex;flex-direction:column}
+#viewer .vbar{display:flex;gap:8px;align-items:center;padding:10px;background:#0b1226}
+#viewer .vbar span{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#viewer iframe{flex:1;width:100%;border:0;background:#fff}
+.x{background:#ef4444;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:800;font-size:15px}
+.o{background:var(--acc);color:#06202e;border:0;border-radius:10px;padding:10px 12px;font-weight:700;text-decoration:none;font-size:14px}
+footer{color:var(--mut);font-size:11.5px;padding:18px 14px 40px;max-width:1080px;margin:0 auto}
+a{color:var(--acc)}
+</style>
+</head>
+<body>
+<header>
+<h1>📚 Navigator Pekeliling Disiplin KPM<small>Topik • Tahun • Kronologi — PDF dimuat hanya bila dibuka (pantas di telefon & desktop)</small></h1>
+<div class="bar">
+<input id="q" type="search" placeholder="Cari: buli, merotan, vape, telefon, seksual…" autocomplete="off">
+<select id="year"><option value="">Semua tahun</option></select>
+<select id="sort"><option value="desc">Terbaru → tertua</option><option value="asc">Tertua → terbaru</option></select>
+</div>
+</header>
+<div class="chips" id="chips"></div>
+<main>
+<div class="meta" id="count"></div>
+<div id="list"></div>
+</main>
+<div id="viewer" role="dialog" aria-label="Paparan PDF">
+<div class="vbar"><button class="x" id="close">✕ Tutup</button><span id="vtitle"></span><a class="o" id="vopen" href="#" target="_blank" rel="noopener">Buka ⬈</a></div>
+<iframe id="frame" title="PDF viewer"></iframe>
+</div>
+<footer>
+⚖️ <b>Nota:</b> Semua PDF ialah dokumen rasmi KPM (salinan cerminan pantas untuk capaian sekolah; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my/pekeliling-ikhtisas</a> disekat untuk sesetengah rangkaian). Sahkan nombor pekeliling sebelum cetakan rasmi. Pembetulan penting: SPI 9/2018 = Perpaduan (bukan seksual — yang betul SPI 13/2023); SPI 6/2019 = KSSM (bukan buli — yang betul SPI 8/2010 & SPI 12/2023).<br>
+Dibina sebagai GitHub Pages statik — tiada penjejak, tiada framework.
+</footer>
+<script>
+let CAT=[],topic="Semua";
+const $=s=>document.querySelector(s);
+fetch("data/catalog.json").then(r=>r.json()).then(d=>{
+ CAT=d;
+ const yrs=[...new Set(CAT.map(c=>c.year))].sort((a,b)=>b-a);
+ yrs.forEach(y=>{const o=document.createElement("option");o.value=y;o.textContent=y;$("#year").appendChild(o)});
+ const topics=["Semua",...new Set(CAT.flatMap(c=>c.topics))];
+ const ch=$("#chips");topics.forEach(t=>{const b=document.createElement("button");b.className="chip"+(t==="Semua"?" on":"");b.textContent=t;b.onclick=()=>{topic=t;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");render()};ch.appendChild(b)});
+ $("#q").addEventListener("input",()=>render());
+ $("#year").addEventListener("change",render);
+ $("#sort").addEventListener("change",render);
+ if(location.hash.startsWith("#id="))openId(decodeURIComponent(location.hash.slice(4)));
+ render();
+});
+function fmt(s){if(!s)return "?";return s>1048576?(s/1048576).toFixed(1)+" MB":Math.round(s/1024)+" KB"}
+function filtered(){
+ const q=$("#q").value.toLowerCase().trim(),y=$("#year").value;
+ let r=CAT.filter(c=>(topic==="Semua"||c.topics.includes(topic))&&(!y||String(c.year)===y)&&(!q||(c.title+" "+c.keywords+" "+c.bil).toLowerCase().includes(q)));
+ r.sort((a,b)=>$("#sort").value==="desc"?b.year-a.year||b.title.localeCompare(a.title):a.year-b.year||a.title.localeCompare(b.title));
+ return r;
+}
+function render(){
+ const r=filtered();
+ $("#count").textContent=r.length+" / "+CAT.length+" pekeliling • susunan "+($("#sort").value==="desc"?"terbaru dahulu":"tertua dahulu");
+ const host=$("#list");host.innerHTML="";
+ if($("#sort").value==="asc"){
+   let last=null;
+   r.forEach(c=>{if(c.year!==last){last=c.year;host.insertAdjacentHTML("beforeend",'<div class="tl"><h3>'+last+'</h3><p>Garis masa kronologi</p></div><div class="grid" data-y="'+last+'"></div>')}host.querySelector('[data-y="'+last+'"]').appendChild(card(c))});
+ }else{
+   const g=document.createElement("div");g.className="grid";r.forEach(c=>g.appendChild(card(c)));host.appendChild(g);
+ }
+}
+function card(c){
+ const d=document.createElement("div");d.className="card";
+ d.innerHTML='<div class="yr">'+c.year+' • '+c.bil+'</div><h2>'+c.title+'</h2><div class="tags">'+c.topics.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div><div class="meta">📄 '+fmt(c.size)+' • pdfs/'+c.file+'</div><div class="row"><button class="btn view">Lihat PDF</button><a class="btn dl" href="pdfs/'+c.file+'" download>Muat turun</a></div>';
+ d.querySelector(".view").onclick=()=>openId(c.id);
+ return d;
+}
+function openId(id){
+ const c=CAT.find(x=>x.id===id);if(!c)return;
+ $("#vtitle").textContent=c.bil+" — "+c.title;
+ $("#frame").src="pdfs/"+c.file;
+ $("#vopen").href="pdfs/"+c.file;
+ $("#viewer").classList.add("open");
+ history.replaceState(null,"","#id="+encodeURIComponent(id));
+ document.body.style.overflow="hidden";
+}
+function closeV(){$("#viewer").classList.remove("open");$("#frame").src="about:blank";history.replaceState(null,""," ");document.body.style.overflow=""}
+$("#close").onclick=closeV;
+$("#viewer").addEventListener("click",e=>{if(e.target.id==="viewer")closeV()});
+document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("#q")){e.preventDefault();$("#q").focus()}if(e.key==="Escape")closeV()});
+if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+</script>
+</body>
+</html>
