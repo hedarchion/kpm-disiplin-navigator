@@ -19,6 +19,8 @@ html,body{overflow-x:hidden}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 svg.ic{flex:none}
+img,iframe,svg{max-width:100%}
+.cell .tt b,.inforow .v,.dhero h1{overflow-wrap:anywhere}
 /* ===== NAV BAR (collapsing large title) ===== */
 .navbar{position:sticky;top:0;z-index:30;background:var(--nav);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep)}
 .nav-in{max-width:700px;margin:0 auto;padding:10px 16px 8px;display:flex;align-items:center;gap:8px;min-height:52px}
@@ -67,8 +69,9 @@ svg.ic{flex:none}
 .tile b{display:block;font-size:16.5px;font-weight:600;line-height:1.3}
 .tile span{font-size:14px;color:var(--sec)}
 /* ===== DETAIL ===== */
-.view{position:fixed;inset:0;z-index:40;background:var(--bg);transform:translateX(102%);visibility:hidden;transition:transform .28s cubic-bezier(.32,.72,0,1),visibility 0s linear .3s;display:flex;flex-direction:column}
-.view.on{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.32,.72,0,1),visibility 0s}
+.view{position:fixed;inset:0;z-index:40;background:var(--bg);display:none;flex-direction:column}
+.view.on{display:flex;animation:slidein .28s cubic-bezier(.32,.72,0,1)}
+@keyframes slidein{from{transform:translateX(102%)}}
 .view .scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:40px}
 .dhero{padding:8px 20px 0}
 .dhero h1{font-size:clamp(25px,6.8vw,31px);font-weight:700;letter-spacing:-.01em;margin:0 0 8px;line-height:1.3}
@@ -243,7 +246,7 @@ function renderSenarai(){
  }else{var g=document.createElement("div");g.className="group";
   r.forEach(c=>{var b=document.createElement("button");b.className="cell";b.dataset.open=c.id;b.innerHTML=cellHTML(c);g.appendChild(b)});
   h.appendChild(g)}
- h.insertAdjacentHTML("beforeend",'<div class="foot">Dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>).</div>');
+ h.insertAdjacentHTML("beforeend",'<div class="foot">Dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>). <span style="opacity:.55">· binaan v6</span></div>');
  bindCells(h);
 }
 function renderTopik(){
