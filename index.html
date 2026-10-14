@@ -15,9 +15,12 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-html,body{overflow-x:hidden}
+html,body{width:100%;min-width:0;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.nav-in .t,.searchwrap,.search,.view .scroll{min-width:0}
+.navbar{padding-top:env(safe-area-inset-top)}
 svg.ic{flex:none}
 img,iframe,svg{max-width:100%}
 .cell .tt b,.inforow .v,.dhero h1{overflow-wrap:anywhere}
@@ -62,10 +65,18 @@ img,iframe,svg{max-width:100%}
 /* topic dot */
 .dot{width:13px;height:13px;border-radius:99px;flex:none;background:var(--blue)}
 /* ===== TOPIC TILES ===== */
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .tile{display:flex;align-items:center;gap:12px;background:var(--card);border:0;border-radius:16px;padding:16px;color:var(--text);text-align:left;min-height:92px}
 .tile:active{opacity:.6}
 .tile .gi{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:25px;flex:none;background:var(--tg);color:var(--t)}
+.tile{min-width:0;overflow-wrap:anywhere}
+.tile > span:last-child{min-width:0}
+@media(max-width:480px){.tiles{grid-template-columns:minmax(0,1fr)}.cell{gap:8px;padding-left:12px}.cell .tt b{font-size:18px}.dhero{padding:8px 0 0}}
+.topicwrap{max-width:700px;margin:0 auto;padding:8px 16px 16px}
+.topicfilters{display:flex;flex-wrap:wrap;gap:8px}
+.topicchip{max-width:100%;border:1px solid var(--sep);border-radius:999px;background:var(--card);color:var(--text);padding:10px 14px;min-height:44px;font-size:15px;line-height:1.3;overflow-wrap:anywhere;cursor:pointer}
+.topicchip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.cell-open{display:flex;align-items:center;gap:12px;flex:1;min-width:0;border:0;background:none;color:inherit;text-align:left;padding:0;cursor:pointer}
 .tile b{display:block;font-size:16.5px;font-weight:600;line-height:1.3}
 .tile span{font-size:14px;color:var(--sec)}
 /* ===== DETAIL ===== */
@@ -137,7 +148,8 @@ img,iframe,svg{max-width:100%}
 <div class="search" style="flex:1"><svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" type="search" placeholder="Carian" autocomplete="off" enterkeyhint="search" aria-label="Carian"></div>
 <button class="scancel" id="scancel">Batal</button>
 </div></div>
-<div class="listwrap" id="listSenarai"></div>
+<div class="topicwrap"><div class="topicfilters" id="topicFilters" role="group" aria-label="Tapis mengikut topik"></div></div>
+<div class="listwrap" id="listSenarai" aria-live="polite"></div>
 </div>
 <div id="tabTopik" style="display:none">
 <div class="largehead"><h1>Topik</h1><p>Pekeliling ikut kategori salah laku</p></div>
@@ -227,9 +239,10 @@ function filtered(){
 }
 function cellHTML(c,showYear){
  var sub=c.bil+" · "+(c.pages||"?")+" ms · "+sz(c.size);
- return '<span class="dot" style="background:'+tint(c.topics[0])[0]+'"></span><span class="tt"><b>'+c.title+'</b><span>'+sub+'</span></span>'
+ return '<button class="cell-open" data-open="'+c.id+'"><span class="dot" style="background:'+tint(c.topics[0])[0]+'"></span><span class="tt"><b>'+c.title+'</b><span>'+sub+'</span></span>'
+ +'<svg class="ic chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>'
  +'<button class="star'+(isSaved(c.id)?" saved":"")+'" data-save="'+c.id+'" aria-label="Simpan"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="'+(isSaved(c.id)?"currentColor":"none")+'" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg></button>'
- +'<svg class="ic chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+;
 }
 function bindCells(host){
  host.querySelectorAll("[data-save]").forEach(b=>b.onclick=function(e){e.stopPropagation();toggleSave(b.dataset.save)});
@@ -242,12 +255,20 @@ function renderSenarai(){
  if(!r.length){h.innerHTML='<div class="empty"><b>Tiada hasil</b>Cuba kata kunci lain atau set semula penapis.</div>';return}
  if(state.sort==="asc"){var last=null,g=null;
   r.forEach(c=>{if(c.year!==last){last=c.year;var s=document.createElement("div");s.className="sect";s.textContent=last;h.appendChild(s);g=document.createElement("div");g.className="group";h.appendChild(g)}
-   var b=document.createElement("button");b.className="cell";b.dataset.open=c.id;b.innerHTML=cellHTML(c);g.appendChild(b)});
+   var b=document.createElement("div");b.className="cell";b.innerHTML=cellHTML(c);g.appendChild(b)});
  }else{var g=document.createElement("div");g.className="group";
-  r.forEach(c=>{var b=document.createElement("button");b.className="cell";b.dataset.open=c.id;b.innerHTML=cellHTML(c);g.appendChild(b)});
+  r.forEach(c=>{var b=document.createElement("div");b.className="cell";b.innerHTML=cellHTML(c);g.appendChild(b)});
   h.appendChild(g)}
- h.insertAdjacentHTML("beforeend",'<div class="foot">Dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>). <span style="opacity:.55">· binaan v6</span></div>');
+ h.insertAdjacentHTML("beforeend",'<div class="foot">Dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>). <span style="opacity:.55">· binaan v7</span></div>');
  bindCells(h);
+}
+function renderTopicFilters(){
+ var h=$("#topicFilters");h.innerHTML="";
+ ["Semua",...new Set(CAT.flatMap(c=>c.topics))].forEach(t=>{
+  var b=document.createElement("button");b.type="button";b.className="topicchip";b.textContent=t;
+  b.setAttribute("aria-pressed",String(state.topic===t));
+  b.onclick=function(){state.topic=t;renderAll()};h.appendChild(b);
+ });
 }
 function renderTopik(){
  var topics=[...new Set(CAT.flatMap(c=>c.topics))];
@@ -256,7 +277,7 @@ function renderTopik(){
   var n=CAT.filter(c=>c.topics.includes(t)).length,cc=tint(t);
   var b=document.createElement("button");b.className="tile";
   b.innerHTML='<span class="gi" style="background:'+cc[1]+'">'+glyph(t)+'</span><span><b>'+t+'</b><span>'+n+' pekeliling</span></span>';
-  b.onclick=function(){state.topic=t;setTab("Senarai")};
+  b.onclick=function(){state.topic=t;renderAll();setTab("Senarai")};
   h.appendChild(b)});
 }
 function renderSaved(){
@@ -264,10 +285,10 @@ function renderSaved(){
  if(!ids.length){h.innerHTML='<div class="empty"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg><b>Tiada simpanan</b>Tanda ★ pada mana-mana pekeliling untuk rujukan pantas.</div>';return}
  var g=document.createElement("div");g.className="group";
  ids.forEach(id=>{var c=null;CAT.forEach(x=>{if(x.id===id)c=x});if(!c)return;
-  var b=document.createElement("button");b.className="cell";b.dataset.open=c.id;b.innerHTML=cellHTML(c);g.appendChild(b)});
+  var b=document.createElement("div");b.className="cell";b.innerHTML=cellHTML(c);g.appendChild(b)});
  h.appendChild(g);bindCells(h);
 }
-function renderAll(){renderSenarai();renderTopik();renderSaved();paintSaveN();
+function renderAll(){renderTopicFilters();renderSenarai();renderTopik();renderSaved();paintSaveN();
  var n=(state.topic!=="Semua"?1:0)+(state.year?1:0);
  $("#navFilter").style.color=n?"var(--blue)":"";}
 /* ---------- tabs ---------- */
@@ -315,7 +336,7 @@ function openDetail(id,back,silent){
 }
 function paintDetailSave(){var s=state.cur&&isSaved(state.cur.id),e=$("#dSave");e.classList.toggle("saved",!!s);
  e.querySelector("svg").setAttribute("fill",s?"currentColor":"none");e.style.color=s?"var(--blue)":""}
-function closeDetail(){$("#detail").classList.remove("on");if(!$("#reader").classList.contains("open"))document.body.style.overflow="";try{history.replaceState({},""," ")}catch(e){}}
+function closeDetail(){$("#detail").classList.remove("on");if(!$("#reader").classList.contains("on"))document.body.style.overflow="";try{history.replaceState({},""," ")}catch(e){}}
 $("#dBack").onclick=closeDetail;
 $("#dSave").onclick=function(){if(state.cur)toggleSave(state.cur.id)};
 $("#dRead").onclick=function(){if(!state.cur)return;openReader(state.cur)};
@@ -333,9 +354,9 @@ function openReader(c){
  $("#reader").classList.add("on");
  $("#rShare").onclick=function(){shareDoc(c)};
 }
-$("#rDone").onclick=function(){$("#reader").classList.remove("open");$("#frame").src="about:blank";if(!$("#detail").classList.contains("on"))document.body.style.overflow=""};
-window.addEventListener("popstate",function(){$("#reader").classList.remove("open");$("#frame").src="about:blank";closeDetail()});
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){$("#fsheet").classList.remove("open");if($("#reader").classList.contains("open"))$("#rDone").click();else if($("#detail").classList.contains("on"))closeDetail()}});
+$("#rDone").onclick=function(){$("#reader").classList.remove("on");$("#frame").src="about:blank";if(!$("#detail").classList.contains("on"))document.body.style.overflow=""};
+window.addEventListener("popstate",function(){$("#reader").classList.remove("on");$("#frame").src="about:blank";closeDetail()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){$("#fsheet").classList.remove("open");if($("#reader").classList.contains("on"))$("#rDone").click();else if($("#detail").classList.contains("on"))closeDetail()}});
 paintSaveN();
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
 </script>

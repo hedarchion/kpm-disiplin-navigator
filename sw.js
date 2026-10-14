@@ -1,4 +1,4 @@
-const C="kpm-disiplin-v5";
+const C="kpm-disiplin-v7";
 // HTML/navigations are NEVER served from cache (always fresh).
 // Only PDFs + catalog are cached for offline reading.
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(["./index.html"])).then(()=>self.skipWaiting()).catch(()=>self.skipWaiting()))});
