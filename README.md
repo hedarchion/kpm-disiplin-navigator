@@ -3,6 +3,7 @@
 Aplikasi web statik pantas (GitHub Pages) — semua Surat Pekeliling Ikhtisas / Surat Siaran KPM berkaitan disiplin murid, disusun ikut **topik, tahun & kronologi**, dengan paparan PDF terbina dalam.
 
 - 🚀 Tiada framework, tiada build — `index.html` + `data/catalog.json` + `pdfs/`
+- 🗓️ Tab Kronologi: semua pekeliling dikumpulkan dengan label tahun, tertua dahulu (boleh ditukar kepada terbaru dahulu)
 - 📱 Mesra telefon & desktop; PDF dimuat malas (lazy) — sifar bait PDF sebelum pengguna tekan Lihat
 - 🔍 Carian kata kunci + penapis topik + tahun + susunan terbaru/tertua + pautan deep-link `#id=`
 - 📴 Service worker: halaman + katalog cache-first; PDF di-cache selepas dilihat

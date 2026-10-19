@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" id="tcD">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Disiplin KPM</title>
-<meta name="description" content="Semua pekeliling disiplin KPM — ikut topik, tahun & kronologi.">
+<title>SMK METHODIST · Unit HEM &amp; Disiplin</title>
+<meta name="description" content="SMK METHODIST — Unit HEM &amp; Disiplin. Rujukan pekeliling disiplin KPM mengikut topik, tahun dan kronologi.">
 <style>
 :root{color-scheme:light dark;--bg:#f2f2f7;--card:#ffffff;--card2:#e9e9ee;--text:#000;--sec:#8e8e93;--sechead:#6d6d72;--sep:#c6c6c8;--blue:#007aff;--red:#ff3b30;--fill:#e3e3e8;--nav:rgba(249,249,249,.82);--tab:rgba(250,250,252,.78)}
 @media(prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--card2:#2c2c2e;--text:#fff;--sec:#98989f;--sechead:#98989f;--sep:#38383a;--blue:#0a84ff;--red:#ff453a;--fill:#2c2c2e;--nav:rgba(20,20,22,.78);--tab:rgba(28,28,30,.72)}}
@@ -31,6 +31,9 @@ img,iframe,svg{max-width:100%}
 .navbar.mini .t{opacity:1;transform:none}
 .navbtn{border:0;background:none;color:var(--blue);font-size:18px;display:flex;align-items:center;gap:2px;padding:10px 8px;min-height:48px}
 .navbtn:active{opacity:.4}
+.schoolbrand{max-width:700px;margin:0 auto;padding:18px 20px 10px}
+.schoolbrand strong{display:block;color:var(--blue);font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.4}
+.schoolbrand span{display:block;color:var(--sechead);font-size:14px;margin-top:2px}
 .largehead{max-width:700px;margin:0 auto;padding:6px 20px 4px}
 .largehead h1{font-size:clamp(32px,9vw,40px);font-weight:700;letter-spacing:-.01em;margin:0;transition:.2s}
 .largehead p{margin:2px 0 8px;font-size:15.5px;color:var(--sec)}
@@ -120,7 +123,7 @@ img,iframe,svg{max-width:100%}
 .yr.on .ck{display:block}
 .yr.on{font-weight:600}
 /* ===== FLOATING TAB BAR (Liquid Glass) ===== */
-.tabbar{position:fixed;left:14px;right:14px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:35;max-width:560px;margin:0 auto;background:var(--tab);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border:.5px solid var(--sep);border-radius:26px;box-shadow:0 8px 30px rgba(0,0,0,.16);display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px}
+.tabbar{position:fixed;left:14px;right:14px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:35;max-width:560px;margin:0 auto;background:var(--tab);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border:.5px solid var(--sep);border-radius:26px;box-shadow:0 8px 30px rgba(0,0,0,.16);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:6px}
 .tab{border:0;background:none;color:var(--sec);font-size:12.5px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px;min-height:64px;border-radius:20px;position:relative}
 .tab svg.ic{width:27px;height:27px}
 .tab.on{color:var(--blue)}
@@ -142,6 +145,7 @@ img,iframe,svg{max-width:100%}
 <span class="t" id="navTitle">Senarai</span>
 <button class="navbtn" id="navSort" style="font-size:15px">Terbaru</button>
 </div></div>
+<header class="schoolbrand" aria-label="SMK METHODIST, Unit HEM dan Disiplin"><strong>SMK METHODIST</strong><span>Unit HEM &amp; Disiplin</span></header>
 <div id="tabSenarai">
 <div class="largehead"><h1>Senarai</h1><p id="subSenarai">Memuatkan…</p></div>
 <div class="searchwrap"><div style="display:flex;gap:8px;align-items:center">
@@ -156,6 +160,10 @@ img,iframe,svg{max-width:100%}
 <div class="listwrap" style="padding-top:4px"><div class="tiles" id="tiles"></div>
 <div class="foot">Pilih topik untuk menapis senarai. Nota: SPI 9/2018 = Perpaduan (salah laku seksual = SPI 13/2023); SPI 6/2019 = KSSM (buli = SPI 8/2010 &amp; 12/2023).</div></div>
 </div>
+<div id="tabKronologi" style="display:none">
+<div class="largehead"><h1>Kronologi</h1><p id="subKronologi">Semua pekeliling mengikut tahun · tertua dahulu</p></div>
+<div class="listwrap" id="listKronologi" aria-live="polite"></div>
+</div>
 <div id="tabSimpanan" style="display:none">
 <div class="largehead"><h1>Simpanan</h1><p>Pekeliling yang ditanda untuk rujukan pantas</p></div>
 <div class="listwrap" id="listSaved"></div>
@@ -165,6 +173,7 @@ img,iframe,svg{max-width:100%}
 <div class="tabbar" role="tablist">
 <button class="tab on" data-tab="Senarai"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.3" fill="currentColor" stroke="none"/></svg>Senarai</button>
 <button class="tab" data-tab="Topik"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>Topik</button>
+<button class="tab" data-tab="Kronologi"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18M8 15h2M14 15h2M8 18h2"/></svg>Kronologi</button>
 <button class="tab" data-tab="Simpanan"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>Simpanan<span class="bdg" id="saveN" style="display:none"></span></button>
 </div>
 <!-- ============ DETAIL (push) ============ -->
@@ -205,7 +214,7 @@ img,iframe,svg{max-width:100%}
 </div></div>
 </div>
 <script>
-var CAT=[],state={tab:"Senarai",topic:"Semua",year:"",q:"",sort:"desc",cur:null,back:"Senarai"};
+var CAT=[],state={tab:"Senarai",topic:"Semua",year:"",q:"",sort:"desc",chronologySort:"asc",cur:null,back:"Senarai"};
 var saved={};try{saved=JSON.parse(localStorage.getItem("dkpm-saved")||"{}")}catch(e){saved={}}
 function $(s){return document.querySelector(s)}
 function sz(s){if(!s)return"—";return s>1048576?(s/1048576).toFixed(1)+" MB":Math.round(s/1024)+" KB"}
@@ -231,6 +240,11 @@ fetch("data/catalog.json").then(r=>r.json()).then(d=>{
  renderAll();
 }).catch(function(){$("#listSenarai").innerHTML='<div class="empty"><b>Tiada sambungan</b>Periksa internet dan muat semula.</div>'});
 /* ---------- filter/sort ---------- */
+function chronological(a,b){
+ var year=a.year-b.year;
+ if(year)return year;
+ return a.bil.localeCompare(b.bil,"ms",{numeric:true})||a.title.localeCompare(b.title,"ms");
+}
 function filtered(){
  var q=state.q.toLowerCase().trim();
  var r=CAT.filter(c=>(state.topic==="Semua"||c.topics.includes(state.topic))&&(!state.year||String(c.year)===state.year)&&(!q||(c.title+" "+c.keywords+" "+c.bil).toLowerCase().indexOf(q)>-1));
@@ -262,6 +276,21 @@ function renderSenarai(){
  h.insertAdjacentHTML("beforeend",'<div class="foot">Dokumen rasmi KPM (salinan cerminan pantas; portal rasmi <a href="https://www.moe.gov.my/pekeliling-ikhtisas">moe.gov.my</a>). <span style="opacity:.55">· binaan v7</span></div>');
  bindCells(h);
 }
+function renderKronologi(){
+ var h=$("#listKronologi"),r=CAT.slice().sort((a,b)=>state.chronologySort==="asc"?chronological(a,b):chronological(b,a));
+ h.innerHTML="";
+ $("#subKronologi").textContent=CAT.length+" pekeliling mengikut tahun · "+(state.chronologySort==="asc"?"tertua dahulu":"terbaru dahulu");
+ if(!r.length){h.innerHTML='<div class="empty"><b>Tiada pekeliling</b>Belum ada dokumen untuk dipaparkan.</div>';return}
+ var last=null,g=null;
+ r.forEach(c=>{
+  if(c.year!==last){
+   last=c.year;var heading=document.createElement("h2");heading.className="sect";heading.textContent=last;h.appendChild(heading);
+   g=document.createElement("div");g.className="group";g.setAttribute("role","group");g.setAttribute("aria-label","Tahun "+last);h.appendChild(g);
+  }
+  var row=document.createElement("div");row.className="cell";row.innerHTML=cellHTML(c);g.appendChild(row);
+ });
+ bindCells(h);
+}
 function renderTopicFilters(){
  var h=$("#topicFilters");h.innerHTML="";
  ["Semua",...new Set(CAT.flatMap(c=>c.topics))].forEach(t=>{
@@ -288,15 +317,17 @@ function renderSaved(){
   var b=document.createElement("div");b.className="cell";b.innerHTML=cellHTML(c);g.appendChild(b)});
  h.appendChild(g);bindCells(h);
 }
-function renderAll(){renderTopicFilters();renderSenarai();renderTopik();renderSaved();paintSaveN();
+function renderAll(){renderTopicFilters();renderSenarai();renderTopik();renderKronologi();renderSaved();paintSaveN();
  var n=(state.topic!=="Semua"?1:0)+(state.year?1:0);
  $("#navFilter").style.color=n?"var(--blue)":"";}
 /* ---------- tabs ---------- */
 function setTab(t){
  state.tab=t;
  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.tab===t));
- ["Senarai","Topik","Simpanan"].forEach(x=>$("#tab"+x).style.display=x===t?"":"none");
+ ["Senarai","Topik","Kronologi","Simpanan"].forEach(x=>$("#tab"+x).style.display=x===t?"":"none");
  $("#navTitle").textContent=t;
+ $("#navFilter").style.visibility=t==="Kronologi"?"hidden":"";
+ $("#navSort").textContent=(t==="Kronologi"?state.chronologySort:state.sort)==="asc"?"Tertua":"Terbaru";
  if(t!=="Senarai"){$("#navbar").classList.add("mini")}else{onScroll()}
  window.scrollTo(0,0);
 }
@@ -311,7 +342,10 @@ $("#q").addEventListener("input",function(){clearTimeout(deb);var v=$("#q").valu
 $("#q").addEventListener("focus",function(){$("#scancel").style.display="block"});
 $("#scancel").onclick=function(){$("#q").value="";state.q="";$("#scancel").style.display="none";renderSenarai();$("#q").blur()};
 /* ---------- sort + filter sheet ---------- */
-$("#navSort").onclick=function(){setSort(state.sort==="desc"?"asc":"desc")};
+$("#navSort").onclick=function(){
+ if(state.tab==="Kronologi"){state.chronologySort=state.chronologySort==="asc"?"desc":"asc";this.textContent=state.chronologySort==="asc"?"Tertua":"Terbaru";renderKronologi()}
+ else setSort(state.sort==="desc"?"asc":"desc");
+};
 function setSort(s){state.sort=s;$("#navSort").textContent=s==="desc"?"Terbaru":"Tertua";
  document.querySelectorAll("#seg button").forEach(b=>{var on=b.dataset.s===s;b.classList.toggle("on",on);b.style.background=on?"var(--card)":"";b.style.boxShadow=on?"0 1px 4px rgba(0,0,0,.18)":""});
  renderSenarai()}
